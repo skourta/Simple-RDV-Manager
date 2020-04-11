@@ -44,20 +44,26 @@ export const actions = {
       patId = newPatient._id;
       console.log(newPatient);
       console.log(patId);
-      return db.rdvs.insert({ ...rdv, patientID: patId });
+      await db.rdvs.insert({
+        ...rdv,
+        patientID: patId,
+        full: patId + rdv.date + rdv.time
+      });
+      return true;
     } else {
       const noDoubles = await dispatch(
         "checkDoubles",
         patId + rdv.date + rdv.time
       );
       if (noDoubles) {
-        return db.rdvs.insert({
+        await db.rdvs.insert({
           ...rdv,
           patientID: patId,
           full: patId + rdv.date + rdv.time
         });
+        return true;
       } else {
-        throw "This RDV already exists";
+        throw "Ce RDV existe deja!!";
       }
     }
   }

@@ -114,10 +114,17 @@
           <v-textarea v-model="rdv.objet" label="Objet" outlined></v-textarea>
           <v-card-actions>
             <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Ajouter</v-btn>
+            <v-btn color="success" class="mr-4" @click="createPatient">notif</v-btn>
           </v-card-actions>
         </v-form>
       </v-card-text>
     </v-card>
+    <v-snackbar v-model="snackbar" color="success" :timeout="3000">
+      <div class="d-flex" style="width:100%">
+        <v-icon>fas fa-check</v-icon>
+        <span style="paddingLeft: 1rem">{{notifMessage}}</span>
+      </div>
+    </v-snackbar>
   </div>
 </template>
 
@@ -161,16 +168,34 @@ export default {
       objet: ""
     },
     menu: false,
-    time: false
+    time: false,
+    snackbar: false,
+    notifMessage: ""
   }),
 
   methods: {
     ...mapActions("rdvs", ["addRDV"]),
+    ...mapActions(["exceptionHandler"]),
     validate() {
       this.addRDV({
         rdv: this.rdv,
         patient: this.newPatient ? this.newPatientData : this.patient
-      });
+      })
+        .then(val => {
+          if (val) {
+            this.notifMessage = "RDV ajoute!";
+            this.snackbar = true;
+          }
+        })
+        .catch(this.exceptionHandler);
+      // if (
+
+      // ) {
+      //   this.notifMessage = "RDV ajoute!";
+      //   this.snackbar = true;
+      // } else {
+      //   console.log("RDV already exists");
+      // }
     },
     async reset() {
       const proxies = await db.patients.find({});
@@ -178,10 +203,7 @@ export default {
       this.$refs.form.reset();
     },
     async createPatient() {
-      if (this.valid) {
-        const result = await db.patients.insert(this.newPatientData);
-        return result;
-      }
+      this.snackbar = true;
     },
     customFilter(item, queryText, itemText) {
       const textOne = item.name.toLowerCase();

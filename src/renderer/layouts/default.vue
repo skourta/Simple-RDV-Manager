@@ -23,6 +23,7 @@
         <nuxt />
       </v-container>
     </v-content>
+    <ErrorDialog></ErrorDialog>
     <v-footer fixed app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -31,7 +32,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import ErrorDialog from "../components/errorDialog";
 export default {
+  components: {
+    ErrorDialog
+  },
   data() {
     return {
       items: [
