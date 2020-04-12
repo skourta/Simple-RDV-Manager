@@ -12,12 +12,12 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app>
+    <!-- <v-app-bar fixed app>
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title" />
-    </v-app-bar>
+    </v-app-bar>-->
     <v-content>
       <v-container>
         <nuxt />
@@ -49,11 +49,6 @@ export default {
           icon: "fas fa-plus-circle",
           title: "Creer un RDV",
           to: "/newRDV"
-        },
-        {
-          icon: "fas fa-edit",
-          title: "Modifier d'un RDV",
-          to: "/modRDV"
         }
       ],
       miniVariant: false,

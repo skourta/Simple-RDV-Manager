@@ -11,6 +11,12 @@ export const mutations = {
 export const getters = {
   get_patients: state => {
     return state.patients;
+  },
+  get_patient: state => id => {
+    for (let idx = 0; idx < state.patients.length; idx++) {
+      const element = state.patients[idx];
+      if (element._id === id) return element;
+    }
   }
 };
 export const actions = {

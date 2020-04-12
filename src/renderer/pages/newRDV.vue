@@ -114,7 +114,6 @@
           <v-textarea v-model="rdv.objet" label="Objet" outlined></v-textarea>
           <v-card-actions>
             <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Ajouter</v-btn>
-            <v-btn color="success" class="mr-4" @click="createPatient">notif</v-btn>
           </v-card-actions>
         </v-form>
       </v-card-text>
@@ -163,8 +162,8 @@ export default {
     patient: "",
 
     rdv: {
-      date: "2020-04-02",
-      time: "10:05",
+      date: "",
+      time: "",
       objet: ""
     },
     menu: false,
@@ -188,22 +187,11 @@ export default {
           }
         })
         .catch(this.exceptionHandler);
-      // if (
-
-      // ) {
-      //   this.notifMessage = "RDV ajoute!";
-      //   this.snackbar = true;
-      // } else {
-      //   console.log("RDV already exists");
-      // }
     },
     async reset() {
       const proxies = await db.patients.find({});
       console.log(proxies);
       this.$refs.form.reset();
-    },
-    async createPatient() {
-      this.snackbar = true;
     },
     customFilter(item, queryText, itemText) {
       const textOne = item.name.toLowerCase();
@@ -212,7 +200,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("patients", ["get_patients"])
+    ...mapGetters("patients", ["get_patients"]),
+    getDate() {
+      let year = new Date().getFullYear();
+      let month =
+        new Date().getMonth() < 10
+          ? "0" + new Date().getMonth()
+          : new Date().getDate();
+      let date =
+        new Date().getDate() < 10
+          ? "0" + new Date().getDate()
+          : new Date().getDate();
+      return year + "-" + month + "-" + date;
+    }
+  },
+  mounted() {
+    this.rdv.date = this.getDate;
   }
 };
 </script>

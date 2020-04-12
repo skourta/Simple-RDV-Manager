@@ -23,7 +23,23 @@ export const actions = {
     } catch (error) {
       console.log(error);
     }
-    {
+  },
+  async fetchrdvsDay({ dispatch, commit, getters, rootGetters }, payload) {
+    try {
+      await db.rdvs.find({ date: payload }).then(rdvs => {
+        commit("set_rdvs", rdvs);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async fetchrdvsPatient({ dispatch, commit, getters, rootGetters }, payload) {
+    try {
+      await db.rdvs.find({ patientID: payload }).then(rdvs => {
+        commit("set_rdvs", rdvs);
+      });
+    } catch (error) {
+      console.log(error);
     }
   },
   async checkDoubles({ dispatch, commit, getters, rootGetters }, payload) {
@@ -65,6 +81,20 @@ export const actions = {
       } else {
         throw "Ce RDV existe deja!!";
       }
+    }
+  },
+  async updaterdv({ dispatch, commit, getters, rootGetters }, modif) {
+    try {
+      await db.rdvs.update({ _id: modif._id }, modif).then(rdvs => {});
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async removerdv({ dispatch, commit, getters, rootGetters }, modif) {
+    try {
+      await db.rdvs.remove({ _id: modif._id }).then(rdvs => {});
+    } catch (error) {
+      console.log(error);
     }
   }
 };
