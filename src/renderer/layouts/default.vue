@@ -51,7 +51,7 @@ export default {
           to: "/newRDV"
         },
         {
-          icon: "fas fa-plus-circle",
+          icon: "fas fa-users",
           title: "Gestion des Patients",
           to: "/patients"
         }
