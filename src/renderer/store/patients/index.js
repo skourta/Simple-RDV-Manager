@@ -15,6 +15,7 @@ export const getters = {
   get_patient: state => id => {
     for (let idx = 0; idx < state.patients.length; idx++) {
       const element = state.patients[idx];
+      console.log(id);
       if (element._id === id) return element;
     }
   }
@@ -53,5 +54,23 @@ export const actions = {
     } else {
       throw "This patient already exists";
     }
+  },
+  async updatePatient({ dispatch, commit, getters, rootGetters }, modif) {
+    try {
+      console.log(modif);
+      await db.patients.update({ _id: modif._id }, modif).then(rdvs => {
+        dispatch("fetchPatients");
+        return 1;
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
+  // async removePatient({ dispatch, commit, getters, rootGetters }, modif) {
+  //   try {
+  //     await db.patients.remove({ _id: modif._id }).then(rdvs => {});
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 };

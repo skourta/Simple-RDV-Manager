@@ -49,6 +49,11 @@ export default {
           icon: "fas fa-plus-circle",
           title: "Creer un RDV",
           to: "/newRDV"
+        },
+        {
+          icon: "fas fa-plus-circle",
+          title: "Gestion des Patients",
+          to: "/patients"
         }
       ],
       miniVariant: false,
